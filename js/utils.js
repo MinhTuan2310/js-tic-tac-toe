@@ -35,15 +35,54 @@
 // }
 //
 
+import { GAME_STATUS } from "./constants.js";
+
 // Input: an array of 9 items
 // Output: an object as mentioned above
 export function checkGameStatus(cellValues) {
-  // Write your code here ...
-  // Please feel free to add more helper function if you want.
-  // It's not required to write everything just in this function.
+  if(!Array.isArray(cellValues) || cellValues.length !== 9) throw new Error('inpunt does not valid');
+  
+  const valueList = [
+    [0,1,2],
+    [3,4,5],
+    [6,7,8],
 
+    [0,3,6],
+    [2,5,8],
+    [1,4,7],
+
+    [0,4,8],
+    [2,4,6]
+  ];
+
+  const indexValue = valueList.findIndex((value) => {
+    const first = cellValues[value[0]];
+    const second = cellValues[value[1]];
+    const third = cellValues[value[2]];
+
+   return first === second && second === third && first !== '';
+  });
+
+  const indexCellWin = valueList[indexValue][0];
+  const valueCellWin = cellValues[indexCellWin];
+
+  // status: win
+  if(indexValue !== -1) {
+    return {
+      status: valueCellWin === GAME_STATUS.X_WIN ? GAME_STATUS.X_WIN: GAME_STATUS.O_WIN,
+      winPositions: valueList[indexValue],
+    }
+  } 
+  // status: draw 
+  if (cellValues.filter(x => x === '').length === 0)
+  return {
+    status: GAME_STATUS.ENDED,
+    winPositions: [],
+  }
+  // status: playing
   return {
     status: GAME_STATUS.PLAYING,
     winPositions: [],
   };
 }
+
