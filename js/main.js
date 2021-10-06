@@ -2,13 +2,13 @@ import { TURN, CELL_VALUE, GAME_STATUS } from "./constants.js";
 import { 
   getCellElementAtIdx,
   getCellElementList,
-  getCurrentTurnElement 
+  getCurrentTurnElement, 
+  getGameStatusElement,
+  getReplayButtonElement
 } 
 from "./selectors.js";
 
 import { checkGameStatus } from './utils.js';
-
-console.log(checkGameStatus(['X', 'O', 'O', '', 'X', '', '', 'O', 'X']));
 
 /**
  * Global variables
@@ -23,6 +23,31 @@ function toggleTurn() {
   const statusTurn = getCurrentTurnElement();
   statusTurn.classList.remove(TURN.CROSS, TURN.CIRCLE);
   statusTurn.classList.add(currentTurn);
+}
+
+function updateGameStatus(newGameStatus) {
+  gameStatus = newGameStatus;
+  console.log(gameStatus);
+
+  const gameStatusElement = getGameStatusElement();
+  
+  gameStatusElement.textContent = gameStatus;
+}
+
+function showReplayButton() {
+  const replayButton = getReplayButtonElement();
+  
+  replayButton.classList.add('show');
+
+  // console.log(replayButton);
+}
+
+function highlightWinCell(positionList) {
+  positionList.forEach((position) => {
+    const liElement = getCellElementAtIdx(position);
+
+    liElement.classList.add('win');
+  })
 }
 
 function handleCellClick(cellElement, index) {
@@ -40,16 +65,22 @@ function handleCellClick(cellElement, index) {
 
   // check game status
   const game = checkGameStatus(cellValues);
+  console.log(game.status);
 
-  if(status.game === GAME_STATUS.ENDED) {
+  if(game.status === GAME_STATUS.ENDED) {
     // update games status
+    updateGameStatus(game.status);
     // show replay button
+    showReplayButton();
   }
 
-  if(status.game === GAME_STATUS.X_WIN || status.game === GAME_STATUS.O_WIN) {
+  if(game.status === GAME_STATUS.X_WIN || game.status === GAME_STATUS.O_WIN) {
     // UPDATE GAMES STATUS
+    updateGameStatus(game.status);
     // show replay button
+    showReplayButton();
     // highlight win cells
+    highlightWinCell(game.winPositions);
   }
 }
 

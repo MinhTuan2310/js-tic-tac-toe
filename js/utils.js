@@ -35,7 +35,7 @@
 // }
 //
 
-import { GAME_STATUS } from "./constants.js";
+import { GAME_STATUS, TURN, CELL_VALUE } from "./constants.js";
 
 // Input: an array of 9 items
 // Output: an object as mentioned above
@@ -63,13 +63,14 @@ export function checkGameStatus(cellValues) {
    return first === second && second === third && first !== '';
   });
 
-  const indexCellWin = valueList[indexValue][0];
-  const valueCellWin = cellValues[indexCellWin];
-
+  
   // status: win
   if(indexValue !== -1) {
+    const indexCellWin = valueList[indexValue][1];
+    const valueCellWin = cellValues[indexCellWin];
+
     return {
-      status: valueCellWin === GAME_STATUS.X_WIN ? GAME_STATUS.X_WIN: GAME_STATUS.O_WIN,
+      status: valueCellWin === CELL_VALUE.CROSS ? GAME_STATUS.X_WIN: GAME_STATUS.O_WIN,
       winPositions: valueList[indexValue],
     }
   } 
@@ -85,4 +86,5 @@ export function checkGameStatus(cellValues) {
     winPositions: [],
   };
 }
+
 
