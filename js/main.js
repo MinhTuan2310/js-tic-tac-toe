@@ -95,9 +95,40 @@ function initCellElementList() {
 
 }
 
+function resetGame() {
+  // reset temp global vars
+  currentTurn = TURN.CROSS;
+  gameStatus = GAME_STATUS.PLAYING;
+  cellValues = cellValues.map(cell => cell = '');
+  // reset dom cellElement
+  // reset game status
+  const resetStatus = getGameStatusElement();
+  resetStatus.textContent = gameStatus;
+
+  // reset current TURN
+  const statusTurn = getCurrentTurnElement();
+  statusTurn.classList.remove(TURN.CROSS, TURN.CIRCLE);
+  statusTurn.classList.add(TURN.CROSS);
+  // reset game board
+  const cellList = getCellElementList();
+  cellList.forEach(cell => {
+    cell.className = '';
+  })
+  // hide replay button
+  const replayButton = getReplayButtonElement();
+  replayButton.classList.remove('show');
+}
+
+function initReplayButton() {
+  const replayButton = getReplayButtonElement();
+  if(!replayButton) return;
+
+  replayButton.addEventListener('click', resetGame)
+}
 
 (() => {
   initCellElementList();
+  initReplayButton();
 })();
 /**
  * TODOs
