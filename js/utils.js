@@ -40,7 +40,7 @@ import { GAME_STATUS } from "./constants.js";
 // Input: an array of 9 items
 // Output: an object as mentioned above
 export function checkGameStatus(cellValues) {
-  if(!Array.isArray(cellValues) || cellValues.length !== 9) throw new Error('inpunt does not valid');
+  if(!Array.isArray(cellValues) || cellValues.length !== 9) throw new Error('input does not valid');
   
   const valueList = [
     [0,1,2],
