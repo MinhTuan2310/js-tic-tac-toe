@@ -4,7 +4,8 @@ import {
   getCellElementList,
   getCurrentTurnElement, 
   getGameStatusElement,
-  getReplayButtonElement
+  getReplayButtonElement,
+  getUlElelment
 } 
 from "./selectors.js";
 
@@ -63,7 +64,6 @@ function handleCellClick(cellElement, index) {
 
   // check game status
   const game = checkGameStatus(cellValues);
-  console.log(game.status);
 
   if(game.status === GAME_STATUS.ENDED) {
     // update games status
@@ -84,13 +84,22 @@ function handleCellClick(cellElement, index) {
 
 function initCellElementList() {
   const cellElementList = getCellElementList();
+  const ulElement = getUlElelment();
 
-  cellElementList.forEach((cellElement, index) => {
-    cellElement.addEventListener('click', () => {
-      handleCellClick(cellElement, index);
-    })
+  // cellElementList.forEach((cellElement, index) => {
+  //   cellElement.addEventListener('click', () => {
+  //     handleCellClick(cellElement, index);
+  //   })
+  // });
+
+  cellElementList.forEach((cell, index) => {
+    cell.dataset.index = index;
   });
-
+  
+  ulElement.addEventListener('click', (event) => {
+    const index = Number.parseInt(event.target.dataset.index);
+    handleCellClick(event.target, index);
+  })
 }
 
 function resetGame() {
