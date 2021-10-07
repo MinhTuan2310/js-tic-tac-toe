@@ -38,8 +38,6 @@ function showReplayButton() {
   const replayButton = getReplayButtonElement();
   
   replayButton.classList.add('show');
-
-  // console.log(replayButton);
 }
 
 function highlightWinCell(positionList) {
